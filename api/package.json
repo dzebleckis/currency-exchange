@@ -1,0 +1,17 @@
+{
+  "name": "currency_exchange",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "jest",
+    "watch": "nodemon"
+  },
+  "author": "Darius Zebleckis",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
