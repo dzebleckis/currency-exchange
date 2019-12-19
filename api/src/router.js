@@ -2,20 +2,19 @@ const validators = require('./validators')
 const config = require('./config')
 
 module.exports = function (service) {
-
   const router = require('express').Router()
 
   router.get('/quote', (req, res, next) => {
     const result = validators.validateQuote(config.currencies, req.query)
     if (result.valid) {
-      let { from_currency_code, to_currency_code, amount } = req.query
+      let { from_currency_code: fromCurrency, to_currency_code: toCurrency, amount } = req.query
 
-      from_currency_code = from_currency_code.toUpperCase()
-      to_currency_code = to_currency_code.toUpperCase()
+      fromCurrency = fromCurrency.toUpperCase()
+      toCurrency = toCurrency.toUpperCase()
       amount = parseInt(amount)
 
       service
-        .calculateQuote(from_currency_code, to_currency_code, amount)
+        .calculateQuote(fromCurrency, toCurrency, amount)
         .then(result => res.json(result))
         .catch(error => next(error))
     } else {

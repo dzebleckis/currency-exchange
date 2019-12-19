@@ -13,7 +13,7 @@ module.exports = (ttl) => {
     },
 
     set: (key, value) => {
-      map.set(key, {updateAt: Date.now(), value})
-    },
+      map.set(key, { updateAt: Date.now(), value })
+    }
   }
 }

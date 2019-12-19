@@ -1,20 +1,18 @@
 module.exports = (exchange, cache) => {
-
-  function convert(toCurrency, rates, amount) {
-    let exchangeRate = rates[toCurrency].toFixed(3)
-    let result = Math.floor(amount * exchangeRate)
+  function convert (toCurrency, rates, amount) {
+    const exchangeRate = rates[toCurrency].toFixed(3)
+    const result = Math.floor(amount * exchangeRate)
 
     return {
       exchange_rate: exchangeRate,
       currency_code: toCurrency,
-      amount: result,
+      amount: result
     }
   }
 
   return {
     calculateQuote: (fromCurrency, toCurrency, amount) => {
-
-      let data = cache.get(fromCurrency)
+      const data = cache.get(fromCurrency)
 
       if (data) {
         return new Promise((resolve) => resolve(convert(toCurrency, data, amount)))
