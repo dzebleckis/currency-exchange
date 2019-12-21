@@ -16,7 +16,13 @@ module.exports = function (service) {
       service
         .calculateQuote(fromCurrency, toCurrency, amount)
         .then(result => res.json(result))
-        .catch(error => next(error))
+        .catch(error => {
+          if (error.isAxiosError) {
+            res.status(502).json({error: 'Bad Gateway'})
+          } else {
+            next(error)
+          }
+        })
     } else {
       res.status(400).json(result.errors)
     }

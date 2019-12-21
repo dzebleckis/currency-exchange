@@ -11,19 +11,16 @@ module.exports = (exchange, cache) => {
   }
 
   return {
-    calculateQuote: (fromCurrency, toCurrency, amount) => {
-      const data = cache.get(fromCurrency)
+    calculateQuote: async (fromCurrency, toCurrency, amount) => {
+      let data = cache.get(fromCurrency)
 
-      if (data) {
-        return new Promise((resolve) => resolve(convert(toCurrency, data, amount)))
+      if (!data) {
+        console.log('no data, fetching')
+        data = await exchange.rates(fromCurrency)
+        cache.set(fromCurrency, data)
       }
 
-      return exchange
-        .rates(fromCurrency)
-        .then(data => {
-          cache.set(fromCurrency, data.rates)
-          return convert(toCurrency, data.rates, amount)
-        })
+      return convert(toCurrency, data, amount)
     }
   }
 }

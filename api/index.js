@@ -11,7 +11,7 @@ const ttl = 10 * 1000 //10 seconds
 
 app.use('/api', router(service(exchange(config.fixer_api), cache(ttl))))
 
-app.listen(port, (e, b) => console.log(`Example app listening on port ${port}!`))
+app.listen(port, (e, b) => console.log(`App started http://127.0.0.1:${port}`))
 
 app.use((err, req, res, next) => {
   console.log(err)
