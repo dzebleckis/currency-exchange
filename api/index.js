@@ -4,16 +4,17 @@ const service = require('./src/service')
 const cache = require('./src/cache')
 const exchange = require('./src/exchange')
 const config = require('./src/config')
+const cors = require('cors')
 
 const app = express()
-const port = 3000 //TODO env variable
-const ttl = 10 * 1000 //10 seconds
 
-app.use('/api', router(service(exchange(config.fixer_api), cache(ttl))))
+app.use(cors())
 
-app.listen(port, (e, b) => console.log(`App started http://127.0.0.1:${port}`))
+app.use('/api', router(service(exchange(config.fixer_api), cache(config.ttl))))
+
+app.listen(config.port, (e, b) => console.log(`App started http://${config.host}:${config.port}`))
 
 app.use((err, req, res, next) => {
   console.log(err)
-  res.status(500).send('Something broke!')
+  res.status(500).send('Something went wrong, please try again later')
 })
